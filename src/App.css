@@ -1,7 +1,9 @@
 .Home {
-  display: flex !important;
-  flex-wrap: wrap !important;
+  place-content: center;
+  text-align: center;
+  place-content: center;
+  margin: 1vw;
 
 
-  overflow: auto
+  overflow: hidden;
 }

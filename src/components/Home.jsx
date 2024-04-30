@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, Select } from 'antd';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import fetchData from './apiService';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { Button } from 'antd';
+
 
 const { Option } = Select;
 
@@ -12,17 +13,20 @@ const Home = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [data, setData] = useState([]);
+    const [total, setTotal] = useState(0);
     const [pagination, setPagination] = useState({ current: parseInt(queryString.parse(location.search).page || 1) });
     const [tagsFilter, setTagsFilter] = useState(() => {
         const queryParams = queryString.parse(location.search);
         return queryParams.tags ? queryParams.tags.split(',') : [];
     });
+
     const [searchText, setSearchText] = useState(() => {
         const queryParams = queryString.parse(location.search);
         return queryParams.search || '';
     });
+
     const pageSize = 10;
-    let res;
+
     const tagsArray = Array.from(new Set(data.flatMap(post => post.tags)));
     const filteredData = data.filter(
         (item) =>
@@ -37,11 +41,14 @@ const Home = () => {
             const result = await fetchData(skip, limit);
 
             setData(result.posts);
-            res = result.total
+            setTotal(result.total);
+            console.log((pagination.current * pageSize))
+
+
 
 
         } catch (error) {
-            console.error(error);
+            navigate(`/NotFound`)
         }
     };
 
@@ -81,16 +88,17 @@ const Home = () => {
 
     const columns = [
         { title: 'ID', dataIndex: 'id', key: 'id' },
-        { title: 'Title', dataIndex: 'title', key: 'title' },
-        { title: 'Body', dataIndex: 'body', key: 'body' },
+        { title: 'Title', dataIndex: 'title', key: 'title', width: '200px' },
+        { title: 'Body', dataIndex: 'body', key: 'body', textWrap: 'work-break' },
         { title: 'Tags', dataIndex: 'tags', key: 'tags', render: tags => tags.join(', ') },
     ];
 
+
     return (
-        <div className='Home' style={{ textAlign: 'center', overflowY: 'hidden' }}>
-            <div style={{ width: '95vw', placeContent: 'center', marginLeft: '2.5vw' }}>
+        <div className='Home' style={{ textAlign: 'center' }}>
+            <div style={{ width: '100%', placeContent: 'center' }}>
                 <h1 style={{ color: 'black' }}>Posts</h1>
-                <Input.Search placeholder="Search by body" onChange={handleSearch} style={{ marginBottom: 16 }} />
+                <Input.Search placeholder="Search by body" onChange={handleSearch} style={{ marginBottom: 16 }} value={searchText} />
                 <Select
                     mode="multiple"
                     placeholder="Select tags"
@@ -108,9 +116,10 @@ const Home = () => {
 
                     rowKey="id"
                     pagination={false}
+                    size='large'
                 />
 
-                <Link to="/not-found">Go to Not Found Page</Link>
+
             </div>
             <div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
                 <Button
@@ -123,7 +132,7 @@ const Home = () => {
 
                 <Button
                     onClick={() => setPagination({ ...pagination, current: pagination.current + 1 })}
-                    disabled={pagination.current * pageSize < res} // Disable if already on the last page
+                    disabled={(pagination.current * pageSize) === total} // Disable if already on the last page
                 >
                     Next Page
                 </Button>
