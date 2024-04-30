@@ -1,0 +1,7 @@
+.Home {
+  display: flex !important;
+  flex-wrap: wrap !important;
+
+
+  overflow: auto
+}
