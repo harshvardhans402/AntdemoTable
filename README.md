@@ -10,10 +10,9 @@ Welcome to my React application! This README file provides an overview of the pr
 1. [Overview](#overview)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [Features](#features)
-5. [Dependencies](#dependencies)
-6. [Contributing](#contributing)
-7. [License](#license)
+4. [Dependencies](#dependencies)
+5. [Contributing](#contributing)
+
 
 ## Overview
 
@@ -25,12 +24,12 @@ To run this application locally, follow these steps:
 
 1. Clone this repository to your local machine:
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   [git clone https://github.com/your-username/your-repo.git](https://github.com/harshvardhans402/AntdemoTable.git)
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd your-repo
+   cd ANTDEMO
    ```
 
 3. Install dependencies using npm:
@@ -57,7 +56,7 @@ This project uses the following dependencies:
 - React Router
 - Ant Design (antd)
 - [query-string](https://www.npmjs.com/package/query-string)
-- [Other dependencies]
+
 
 For detailed information about dependencies and their versions, refer to the `package.json` file.
 
